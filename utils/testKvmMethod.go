@@ -1,12 +1,11 @@
-package service
+package utils
 
 import (
 	"fmt"
+	"github.com/digitalocean/go-libvirt"
 	"log"
 	"net"
 	"time"
-
-	"github.com/digitalocean/go-libvirt"
 )
 
 func GetInfo() string {
