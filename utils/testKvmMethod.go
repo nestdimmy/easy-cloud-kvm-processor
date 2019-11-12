@@ -31,15 +31,17 @@ func GetInfo() string {
 		log.Fatalf("failed to retrieve domains: %v", err)
 	}
 
+	result := ""
 	fmt.Println("ID\tName\t\tUUID")
 	fmt.Printf("--------------------------------------------------------\n")
 	for _, d := range domains {
 		fmt.Printf("%d\t%s\t%x\n", d.ID, d.Name, d.UUID)
+		result += d.Name
 	}
 
 	if err := l.Disconnect(); err != nil {
 		log.Fatalf("failed to disconnect: %v", err)
 	}
 
-	return "return some domain info"
+	return result
 }
