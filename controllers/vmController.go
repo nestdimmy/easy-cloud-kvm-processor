@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"../service"
 	"../utils"
+	"./restOperations"
 	"net/http"
 )
 
@@ -10,17 +12,19 @@ const loggerName = "Virtual Machine Controller Logger"
 var logger = utils.InitLogger(loggerName)
 
 var Test = func(w http.ResponseWriter, r *http.Request) {
-	Respond(w, Message("domainName", utils.GetInfo()))
+	restOperations.Respond(w, restOperations.Message("domainName", utils.GetInfo()))
 	logger.Info("Test controller called")
 }
 
 var CreateVM = func(w http.ResponseWriter, r *http.Request) {
-	Respond(w, Message("domain", "VM created"))
+	vmBody := restOperations.ParseVMRequestBody(r)
+
+	restOperations.ReturnVMObject(service.CreateVM(vmBody), w)
 	logger.Info("VM created")
 
 }
 
 var DeleteVM = func(w http.ResponseWriter, r *http.Request) {
-	Respond(w, Message("domain", "VM created"))
+	restOperations.Respond(w, restOperations.Message("domain", "VM created"))
 	logger.Info("VM deleted")
 }

@@ -1,10 +1,10 @@
-#KVM-processor
+KVM-processor
 
-####Project develops on Ubuntu 18.04 
+Project develops on Ubuntu 18.04 
 
 [libvirt package documentation](https://godoc.org/github.com/libvirt/libvirt-go)
 
-#####__TODO list__:
+__TODO list__:
 * [ ] Scruct README.md
 * [x] Create project skeleton
 * [x] Run VM with KVM in CLI mod
@@ -12,7 +12,7 @@
 * [ ] Run VM with libvirt-go library   
 
 
-#####Установка библиотек KVM
+Установка библиотек KVM
  - use - `sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils`
  - type `kvm-ok` to understand that kvm is working  
     * Если вы видите это - `Your cpu does not support KVM extentions`, то у вас отключена виртуализация в BIOS, исправте это
@@ -31,17 +31,19 @@ KVM acceleration can be used
 ```
 go get github.com/{package-name}
 ```
-#####Список используемых пакетов:
+Список используемых пакетов:
  - `gorilla/mux` — URL-маршрутизатор и диспетчер.  
  Мы будем использовать этот пакет для сопоставления путей URL с их обработчиками;
  - `jinzhu/gorm` — ORM-библиотека для Golang.  
  Мы используем этот пакет, чтобы взаимодействовать с базой данных;
  - Для логирования используем `google/logger`;
+ - https://libvirt.org/formatdomain.html - подробное описание xml конфигураций 
+ для создания виртуальных машин с помощью libvirt
  
    
-     
- _________________________
- #####Тестовый запуск
+
+Тестовый запуск  
+
  Запускаем скрипт createVM.sh, пока программное создание ВМ не готово.  
  Убеждаемся в отсутсвии ошибок. При успешном поднятии должно получиться что-то вроде:
  
@@ -72,7 +74,31 @@ Domain creation completed.
 
  ````
  
- #####Полезные команды для управления инстансами KVM:
+ 
+ Создание домена
+ POST localhost:8080/api/v1/vm/new with body
+  
+  ```json
+{
+   	"Name": "domainToCreate" 
+   }
+```
+  
+  return  
+  ```json{
+       "Id": null,
+       "UUID": "5d1f39f9-07a3-444b-93a1-6cb326d6a29f",
+       "Name": "createdDomain",
+       "HostName": "",
+       "Owner": {
+           "Id": "",
+           "Name": "",
+           "VirtualMachines": null
+       }
+   }
+```
+
+Полезные команды для управления инстансами KVM:
 
 Синтаксис выключения ВМ:  
 * `virsh shutdown domain`  
