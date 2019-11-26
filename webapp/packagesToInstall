@@ -1,0 +1,4 @@
+Here package todo install script
+
+apt-get install libvirt-dev
+apt-get install -y pkg-config

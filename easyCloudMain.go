@@ -9,7 +9,6 @@ import (
 	"os"
 )
 
-const loggerName = "ServerLogger"
 const GET = "GET"
 const POST = "POST"
 const DELETE = "DELETE"
@@ -17,14 +16,13 @@ const PUT = "PUT"
 
 func main() {
 
-	ServerLogger := utils.InitLogger(loggerName)
-	BaseUrl := getServerUrl(ServerLogger)
+	BaseUrl := getServerUrl(utils.GetLogger())
 	Router := addRouterAndApi()
 
 	Err := http.ListenAndServe(BaseUrl, Router)
 
 	if Err != nil {
-		ServerLogger.Error(Err)
+		utils.GetLogger().Error(Err)
 	}
 }
 
@@ -39,8 +37,8 @@ func setHandleApis(router *mux.Router) {
 	const vmControllerPath = "/vm"
 
 	router.HandleFunc(buildPath(vmControllerPath, "/test"), controllers.Test).Methods(GET)
-	router.HandleFunc(buildPath(vmControllerPath, "/new"), controllers.CreateVM).Methods(POST)
-	router.HandleFunc(buildPath(vmControllerPath, "/delete"), controllers.DeleteVM).Methods(POST)
+	router.HandleFunc(buildPath(vmControllerPath, "/new"), controllers.CreateVMDomain).Methods(POST)
+	router.HandleFunc(buildPath(vmControllerPath, "/delete"), controllers.DeleteVM).Methods(DELETE)
 
 }
 

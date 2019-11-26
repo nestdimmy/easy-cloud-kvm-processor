@@ -7,6 +7,8 @@ import (
 
 const logPath = "webapp/logs/log.log"
 
+var ServerLogger *logger.Logger = InitLogger("App log")
+
 func InitLogger(loggerName string) *logger.Logger {
 
 	lf, err := os.OpenFile(logPath, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
@@ -18,5 +20,9 @@ func InitLogger(loggerName string) *logger.Logger {
 	ServerLogger := logger.Init(loggerName, false, true, lf)
 	defer ServerLogger.Close()
 
+	return ServerLogger
+}
+
+func GetLogger() *logger.Logger {
 	return ServerLogger
 }
