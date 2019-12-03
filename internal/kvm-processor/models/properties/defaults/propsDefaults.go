@@ -29,7 +29,7 @@ const DiskType string = "file"
 const DiskDevice string = "cdrom"
 const DiskDriverName string = "qemu"
 const DiskDriverType string = "raw"
-const DiskSourceFile string = "/home/dmitry/GolandProjects/kvm-processor/kvm/imgs/ubuntu.iso"
+const DiskSourceFile string = "/home/dmitry/GolandProjects/kvm-processor/internal/kvm-processor/kvm/imgs/ubuntu.iso"
 const DiskTargetDev string = "hda"
 const DiskTargetBus string = "ide"
 

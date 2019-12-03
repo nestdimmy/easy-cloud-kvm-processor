@@ -16,13 +16,14 @@ const PUT = "PUT"
 
 func main() {
 
-	BaseUrl := getServerUrl(utils.GetLogger())
+	utils.InitLogger("logger")
+	BaseUrl := getServerUrl()
 	Router := addRouterAndApi()
-
+	logger.Info("123")
 	Err := http.ListenAndServe(BaseUrl, Router)
 
 	if Err != nil {
-		utils.GetLogger().Error(Err)
+		logger.Error(Err)
 	}
 }
 
@@ -35,8 +36,10 @@ func addRouterAndApi() *mux.Router {
 
 func setHandleApis(router *mux.Router) {
 	const vmControllerPath = "/vm"
+	const health = "/health"
 
 	router.HandleFunc(buildPath(vmControllerPath, "/test"), controllers.Test).Methods(GET)
+	router.HandleFunc(buildPath(health, ""), controllers.HealthCheck).Methods(GET)
 	router.HandleFunc(buildPath(vmControllerPath, "/new"), controllers.CreateVMDomain).Methods(POST)
 	router.HandleFunc(buildPath(vmControllerPath, "/delete"), controllers.DeleteVM).Methods(DELETE)
 
@@ -47,14 +50,14 @@ func buildPath(controllerPath string, methodPath string) string {
 	return basePath + controllerPath + methodPath
 }
 
-func getServerUrl(ServerLogger *logger.Logger) string {
+func getServerUrl() string {
 
 	Port := os.Getenv("PORT")
 	if Port == "" {
 		Port = "8080"
-		ServerLogger.Warning("Port is not defined in .env setting port 8080...")
+		logger.Warning("Port is not defined in .env setting port 8080...")
 	}
-	ServerLogger.Info("Port to connect: " + Port)
+	logger.Info("Port to connect: " + Port)
 
 	return ":" + Port
 }

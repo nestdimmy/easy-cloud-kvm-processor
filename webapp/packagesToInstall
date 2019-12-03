@@ -2,3 +2,5 @@ Here package todo install script
 
 apt-get install libvirt-dev
 apt-get install -y pkg-config
+sudo apt install go-dep
+dep ensure -add "go.mongodb.org/mongo-driver/mongo@~1.0.0"

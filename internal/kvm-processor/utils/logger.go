@@ -5,9 +5,9 @@ import (
 	"os"
 )
 
-const logPath = "webapp/logs/log.log"
+const logPath = "/home/dmitry/GolandProjects/kvm-processor/webapp/logs/log.log"
 
-var ServerLogger *logger.Logger = InitLogger("App log")
+var ServerLogger = InitLogger("App log")
 
 func InitLogger(loggerName string) *logger.Logger {
 

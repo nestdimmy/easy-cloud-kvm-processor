@@ -8,7 +8,7 @@ type VirtualMachine struct {
 	Owner    *User
 }
 
-func NewVirtualMachine(id *int, UUID string, name string, hostname string, owner *User) *VirtualMachine {
+func VM(id *int, UUID string, name string, hostname string, owner *User) *VirtualMachine {
 	vm := new(VirtualMachine)
 	vm.Name = name
 	vm.Id = id

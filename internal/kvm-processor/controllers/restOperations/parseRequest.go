@@ -7,12 +7,10 @@ import (
 	"net/http"
 )
 
-const loggerName = "ParseLogger"
-
-func ParseVMRequestBody(req *http.Request) dto.CreateDomainDto {
+func ParseVMRequestBody(req *http.Request) dto.DomainDto {
 	decoder := json.NewDecoder(req.Body)
 
-	var virtualMachine dto.CreateDomainDto
+	var virtualMachine dto.DomainDto
 
 	err := decoder.Decode(&virtualMachine)
 	if err != nil {
@@ -22,10 +20,10 @@ func ParseVMRequestBody(req *http.Request) dto.CreateDomainDto {
 	return virtualMachine
 }
 
-func ParseCreateDomainRequestBody(req *http.Request) dto.CreateDomainDto {
+func ParseCreateDomainRequestBody(req *http.Request) dto.DomainDto {
 	decoder := json.NewDecoder(req.Body)
 
-	var domainDto dto.CreateDomainDto
+	var domainDto dto.DomainDto
 	err := decoder.Decode(&domainDto)
 	if err != nil {
 		log.GetLogger().Error(err)
