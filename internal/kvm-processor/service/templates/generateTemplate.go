@@ -4,9 +4,21 @@ import (
 	"../../models/dto"
 	"../../models/properties"
 	"encoding/xml"
-	"github.com/google/logger"
 	_ "github.com/libvirt/libvirt-go"
+	log "github.com/sirupsen/logrus"
+	"os"
 )
+
+var Logger = log.New()
+
+func init() {
+	log.SetFormatter(&log.TextFormatter{
+		DisableColors: false,
+		FullTimestamp: true,
+	})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+}
 
 func GenerateTemplateFromRequestData(domainBody dto.DomainDto) string {
 
@@ -14,7 +26,7 @@ func GenerateTemplateFromRequestData(domainBody dto.DomainDto) string {
 
 	output, err := xml.MarshalIndent(filledDomainBody, "  ", "    ")
 	if err != nil {
-		logger.Error(err)
+		Logger.Error(err)
 	}
 
 	return string(output)

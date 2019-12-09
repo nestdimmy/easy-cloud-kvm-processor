@@ -3,10 +3,22 @@ package properties
 import (
 	def "./defaults"
 	"encoding/xml"
-	"github.com/google/logger"
+	log "github.com/sirupsen/logrus"
 	"math/rand"
+	"os"
 	"strings"
 )
+
+var Logger = log.New()
+
+func init() {
+	log.SetFormatter(&log.TextFormatter{
+		DisableColors: false,
+		FullTimestamp: true,
+	})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+}
 
 type Domain struct {
 	XMLName xml.Name `xml:"domain"`
@@ -66,7 +78,7 @@ func SetDomainName(domainName string, domain *Domain) {
 //TODO set inspect minimal value of memory
 func SetMemory(memory int64, domain *Domain) {
 	if memory < def.DomainMinMemory {
-		logger.Warning("Memory can't be less than - " + string(def.DomainMinMemory))
+		Logger.Warning("Memory can't be less than - " + string(def.DomainMinMemory))
 		domain.Memory = def.DomainMinMemory
 	} else {
 		domain.Memory = memory
@@ -76,7 +88,7 @@ func SetMemory(memory int64, domain *Domain) {
 //TODO set inspect minimal value of memory
 func SetCurrentMemory(curMem int64, domain *Domain) {
 	if curMem < def.DomainMinMemory {
-		logger.Warning("Memory can't be less than - " + string(def.DomainMinMemory))
+		Logger.Warning("Memory can't be less than - " + string(def.DomainMinMemory))
 		domain.CurrentMemory = def.DomainMinMemory
 	} else {
 		domain.CurrentMemory = curMem
@@ -85,7 +97,7 @@ func SetCurrentMemory(curMem int64, domain *Domain) {
 
 func SetVirtualCpus(cpuCount int64, domain *Domain) {
 	if cpuCount < def.DomainVirtualCpusDefaultCount {
-		logger.Warning("Virtual cpus count can't be more than - " + string(def.DomainVirtualCpusDefaultCount))
+		Logger.Warning("Virtual cpus count can't be more than - " + string(def.DomainVirtualCpusDefaultCount))
 		domain.VirtualCPUs = def.DomainVirtualCpusDefaultCount
 	} else {
 		domain.VirtualCPUs = cpuCount

@@ -4,31 +4,52 @@ import (
 	"../service"
 	log "../utils"
 	"./restOperations"
-	"github.com/google/logger"
 	"net/http"
 )
 
 var Test = func(w http.ResponseWriter, r *http.Request) {
-	restOperations.Respond(w, restOperations.Message("domainName", log.GetInfo()))
-	logger.Info("Test controller called")
+	restOperations.SimpleMessage(log.GetInfo(), w)
 }
 
-var CreateVMDomain = func(w http.ResponseWriter, r *http.Request) {
+var CreateDomain = func(w http.ResponseWriter, request *http.Request) {
 
-	domainBody := restOperations.ParseCreateDomainRequestBody(r)
+	domainBody := restOperations.ParseCreateDomainRequestBody(request)
 
-	restOperations.ReturnVMObject(service.CreateVM(domainBody), w)
-	logger.Info("VM created")
-
+	createdDomain, err := service.CreateVM(domainBody)
+	if err != nil {
+		restOperations.SimpleMessage(err.Error(), w)
+	} else {
+		restOperations.ReturnVMObject(createdDomain, w)
+	}
 }
 
-var HealthCheck = func(w http.ResponseWriter, r *http.Request) {
-	restOperations.Message("status", "I'm ok!")
-
+var DeleteDomain = func(w http.ResponseWriter, request *http.Request) {
+	searchCriteria := restOperations.ParseSearchCriteria(request)
+	err := service.DeleteVM(searchCriteria)
+	if err != nil {
+		restOperations.SimpleMessage(err.Error(), w)
+	} else {
+		restOperations.SimpleMessage("Domain with key -"+searchCriteria+" deleted", w)
+	}
 }
 
-var DeleteVM = func(w http.ResponseWriter, r *http.Request) {
-	vmBody := restOperations.ParseVMRequestBody(r)
-	service.DeleteVM(vmBody)
-	logger.Info("VM deleted")
+var RebootDomain = func(w http.ResponseWriter, request *http.Request) {
+	searchCriteria := restOperations.ParseSearchCriteria(request)
+	err := service.RebootDomain(searchCriteria)
+	if err != nil {
+		restOperations.SimpleMessage(err.Error(), w)
+	}
+	restOperations.SimpleMessage("Domain with key -"+searchCriteria+" rebooting...", w)
+}
+
+var GetDomain = func(w http.ResponseWriter, request *http.Request) {
+	searchCriteria := restOperations.ParseSearchCriteria(request)
+
+	domain, err := service.GetVirtualMachine(searchCriteria)
+
+	if err != nil {
+		restOperations.SimpleMessage(err.Error(), w)
+	} else {
+		restOperations.ReturnVMObject(domain, w)
+	}
 }

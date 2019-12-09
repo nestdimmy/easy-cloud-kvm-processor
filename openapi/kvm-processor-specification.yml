@@ -1,1 +1,121 @@
-//TODO add swagger spec
+openapi: 3.0.1
+info:
+  description: "Kvm-processor API"
+  version: "1.0.0"
+  title: "KVM Processor"
+  contact:
+    email: "nest.dimmy@gmail.com"
+tags:
+  - name: "Virtual Machine"
+    description: "Virtual Machine Controller"
+paths:
+  /vm:
+    post:
+      tags:
+        - "Virtual Machine"
+      summary: "Create new virtual machine"
+      requestBody:
+        description: action
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VirtualMachineRequest"
+        required: true
+      responses:
+        200:
+          description: "Virtual Machine created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VirtualMachineResponce"
+        400:
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Virtual machine with name - {name} already exist!"
+    get:
+      tags:
+        - "Virtual Machine"
+      summary: "Get virtual machine"
+      parameters:
+        - name: id
+          in: path
+          description: "id of getting Virtual Machine"
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VirtualMachineResponce"
+        400:
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Virtual machine with name - {name} not found!"
+    delete:
+      tags:
+        - "Virtual Machine"
+      summary: "Create new virtual machine"
+      parameters:
+        - name: id
+          in: path
+          description: "id of deleteing Virtual Machine"
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Virtual Machine deleted"
+          content:
+            application/json:
+              schema:
+                type: "string"
+                example: "Virtual Machine with id - {id} deleted."
+        404:
+          description: "Virtual Machine not found"
+          content:
+            application/json:
+              schema:
+                type: "string"
+                example: "Virtual Machine with id - {id} not found."
+        5XX:
+          description: Internal server error.
+components:
+  schemas:
+    VirtualMachineResponce:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+        UUID:
+          type: "string"
+        name:
+          type: "string"
+        hostName:
+          type: "string"
+        status:
+          type: "string"
+          description: "Vm Status"
+          enum:
+            - "runned"
+            - "stopped"
+    VirtualMachineRequest:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        memory:
+          type: "integer"
+          format: "int64"
+        virtualCPUs:
+          type: "integer"
+          format: "int64"

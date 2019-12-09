@@ -6,8 +6,9 @@ import (
 	"net/http"
 )
 
-func Message(fieldName string, message string) map[string]interface{} {
-	return map[string]interface{}{fieldName: message}
+func SimpleMessage(message string, w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+	_, _ = w.Write([]byte(message))
 }
 
 func ReturnVMObject(vm *models.VirtualMachine, w http.ResponseWriter) {
@@ -24,5 +25,5 @@ func ReturnVMObject(vm *models.VirtualMachine, w http.ResponseWriter) {
 
 func Respond(w http.ResponseWriter, data map[string]interface{}) {
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(data)
+	_ = json.NewEncoder(w).Encode(data)
 }

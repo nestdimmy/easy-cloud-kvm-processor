@@ -14,6 +14,7 @@ __TODO list__:
 * [x] Run VM with KVM in CLI mod
 * [ ] Create .sh script for fast start (to update and install all needed packages and libs)
 * [x] Run VM with libvirt-go library   
+* [x] Delete VM with libvirt-go library   
 * [ ] Run to go-dep project structure
 
 Установка библиотек KVM
@@ -48,33 +49,53 @@ go get github.com/{package-name}
 Тестовый запуск  
 
  Создание домена
- POST localhost:8080/api/v1/vm/new with body
+ POST localhost:8080/api/v1/vm with body
   
   ```json
 {
-   	"Name": "domainToCreate" 
-   }
+	"Name": "testDomain" 
+}
 ```
 
   return  
   ```json
 {
-       "Id": null,
-       "UUID": "5d1f39f9-07a3-444b-93a1-6cb326d6a29f",
-       "Name": "domainToCreate",
-       "HostName": "",
-       "Owner": {
-           "Id": "",
-           "Name": "",
-           "VirtualMachines": null
-       }
-   }
+    "Id": 4,
+    "UUID": "1fb62aad-8e82-44ee-ab1c-e9c4dcf48938",
+    "Name": "testDomain",
+    "HostName": "",
+    "Owner": {
+        "Id": "1234567890",
+        "Name": "Dmirty",
+        "Surname": "Nesterov",
+        "VirtualMachines": null
+    }
+}
 ```
-  Удаление  
- DELETE localhost:8080/api/v1/vm/delete with body
+Удаление  
+ REST - DELETE  
+1. localhost:8080/api/v1/vm/4
+2. localhost:8080/api/v1/vm/1fb62aad-8e82-44ee-ab1c-e9c4dcf48938 
+3. localhost:8080/api/v1/vm/testDomain
+ 
+ 
+ Получение домена
+ REST - GET  
+1. localhost:8080/api/v1/vm/4
+2. localhost:8080/api/v1/vm/1fb62aad-8e82-44ee-ab1c-e9c4dcf48938 
+3. localhost:8080/api/v1/vm/testDomain
+ 
+return  
    ```json
  {
-    "Name": "domainToCreate" 
+     "Id": 4,
+     "UUID": "1fb62aad-8e82-44ee-ab1c-e9c4dcf48938",
+     "Name": "testDomain",
+     "HostName": "",
+     "Owner": {
+         "Id": "1234567890",
+         "Name": "Dmirty",
+         "Surname": "Nesterov",
+         "VirtualMachines": null
+     }
  }
- ```
- 

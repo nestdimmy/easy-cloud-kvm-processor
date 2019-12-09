@@ -4,17 +4,19 @@ type VirtualMachine struct {
 	Id       *int
 	UUID     string
 	Name     string
+	State    string
 	HostName string
-	Owner    *User
+	OwnerId  string
 }
 
-func VM(id *int, UUID string, name string, hostname string, owner *User) *VirtualMachine {
+func VM(id *int, UUID string, name string, state string, hostname string, owner string) *VirtualMachine {
 	vm := new(VirtualMachine)
 	vm.Name = name
 	vm.Id = id
 	vm.UUID = UUID
+	vm.State = state
 	vm.HostName = hostname
-	vm.Owner = owner
+	vm.OwnerId = owner
 
 	return vm
 }
